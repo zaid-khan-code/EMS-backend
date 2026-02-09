@@ -1,4 +1,4 @@
-import employeeService from '../services/employee-info-service.js';
+import employeeService from '../services/extra-employee-info-service.js';
 
 export const createEmployee = async (req, res, next) => {
     try {

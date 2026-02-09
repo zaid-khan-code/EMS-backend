@@ -1,4 +1,4 @@
-import employeeTable from '../models/employee-info-model';
+import employeeTable from '../models/employee-info-model.js';
 
 const employeeService = {
     create: (data) => employeeTable.create(data),

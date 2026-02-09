@@ -1,17 +1,17 @@
-import pool from '../config/db';
+import pool from '../config/db.js';
 
 const extraEmployeeInfoTable = {
     create: async (data) => {
         const {
             employee_id,
             contact_1,
-            contact_2,
-            emergence_contact_1,
-            emergence_contact_2,
-            bank_name,
-            bank_acc_num,
-            perment_address,
-            postal_address,
+            contact_2 = null,
+            emergence_contact_1 = null,
+            emergence_contact_2 = null,
+            bank_name = null,
+            bank_acc_num = null,
+            perment_address = null,
+            postal_address = null,
             date_of_birth,
         } = data;
 

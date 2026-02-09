@@ -1,4 +1,4 @@
-import pool from '../config/db';
+import pool from '../config/db.js';
 const employeeTable = {
     create: async (data) => {
         const { employee_id, name, father_name, cnic } = data;
