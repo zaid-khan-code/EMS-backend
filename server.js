@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import employeeRoutes from './src/routes/employee-routes.js';
+import extraEmployeeRoutes from './src/routes/extra-employee-routes.js';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api', employeeRoutes);
+app.use('/api', extraEmployeeRoutes);
 
 app.use((err, req, res, next) => {
     const status = err.status || 500;
