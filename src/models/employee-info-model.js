@@ -17,7 +17,7 @@ const employeeTable = {
         }
         const res = await pool.query('SELECT * FROM employee_info');
         return res.rows
-    },
+    }, 
     update: async (data) => {
         const { id, employee_id, name, father_name, cnic } = data;
 
