@@ -1,10 +1,10 @@
 import pool from '../config/db.js';
 const employeeTable = {
     create: async (data) => {
-        const { employee_id, name, father_name, cnic } = data;
+        const { employee_id, name, father_name, cnic, date_of_birth } = data;
 
-        const query = "INSERT INTO employee_info (employee_id, name, father_name, cnic) VALUES ($1,$2,$3,$4) RETURNING *"
-        const resp = await pool.query(query, [employee_id, name, father_name, cnic]);
+        const query = "INSERT INTO employee_info (employee_id, name, father_name, cnic, date_of_birth) VALUES ($1,$2,$3,$4,$5) RETURNING *"
+        const resp = await pool.query(query, [employee_id, name, father_name, cnic, date_of_birth]);
         return resp.rows[0]
 
 
@@ -17,7 +17,7 @@ const employeeTable = {
         }
         const res = await pool.query('SELECT * FROM employee_info');
         return res.rows
-    }, 
+    },
     update: async (data) => {
         const { id, employee_id, name, father_name, cnic } = data;
 
