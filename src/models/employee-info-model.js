@@ -12,17 +12,17 @@ const employeeTable = {
     read: async (id) => {
 
         if (id) {
-            const res = await pool.query('SELECT * FROM employee_info WHERE id = $1 ', [id]);
+            const res = await pool.query('SELECT * FROM employee_info WHERE id = $1 ORDER BY employee_id ASC', [id]);
             return res.rows[0];
         }
-        const res = await pool.query('SELECT * FROM employee_info');
+        const res = await pool.query('SELECT * FROM employee_info ORDER BY employee_id ASC');
         return res.rows
     },
     update: async (data) => {
-        const { id, employee_id, name, father_name, cnic } = data;
+        const { id, employee_id, name, father_name, cnic, date_of_birth } = data;
 
-        const query = "UPDATE employee_info SET employee_id = $2,name = $3, father_name= $4, cnic= $5,updated_at = CURRENT_TIMESTAMP  WHERE id = $1 RETURNING *";
-        const resp = await pool.query(query, [id, employee_id, name, father_name, cnic]);
+        const query = "UPDATE employee_info SET employee_id = $2,name = $3, father_name= $4, cnic= $5,date_of_birth=$6 ,updated_at = CURRENT_TIMESTAMP  WHERE id = $1 RETURNING *";
+        const resp = await pool.query(query, [id, employee_id, name, father_name, cnic, date_of_birth]);
         return resp.rows[0];
     },
     delete: async (id) => {
