@@ -18,6 +18,14 @@ export const getEmployees = async (req, res, next) => {
         return next(err);
     }
 };
+export const getEmployeesId = async (req, res, next) => {
+    try {
+        const data = await employeeService.readIds();
+        return res.status(200).json(data);
+    } catch (err) {
+        return next(err);
+    }
+};
 
 export const updateEmployee = async (req, res, next) => {
     try {
