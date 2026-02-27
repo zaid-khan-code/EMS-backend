@@ -11,8 +11,7 @@ export const createEmployee = async (req, res, next) => {
 
 export const getEmployees = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const data = await employeeService.read(id);
+        const data = await employeeService.read();
         return res.status(200).json(data);
     } catch (err) {
         return next(err);
@@ -28,13 +27,4 @@ export const updateEmployee = async (req, res, next) => {
         return next(err);
     }
 };
-
-export const deleteEmployee = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const employee = await employeeService.delete(id);
-        return res.status(200).json(employee);
-    } catch (err) {
-        return next(err);
-    }
-};
+ 
