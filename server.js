@@ -3,6 +3,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import employeeRoutes from './src/routes/employee-routes.js';
 import extraEmployeeRoutes from './src/routes/extra-employee-routes.js';
+import departmentRoutes from './src/routes/department-routes.js';
+import designationRoutes from './src/routes/designation-routes.js';
+import employmentTypeRoutes from './src/routes/employment-type-routes.js';
+import jobStatusRoutes from './src/routes/job-status-routes.js';
+import jobInfoRoutes from './src/routes/job-info-routes.js';
 
 dotenv.config();
 
@@ -13,6 +18,11 @@ app.use(express.json());
 
 app.use('/api', employeeRoutes);
 app.use('/api', extraEmployeeRoutes);
+app.use('/api', departmentRoutes);
+app.use('/api', designationRoutes);
+app.use('/api', employmentTypeRoutes);
+app.use('/api', jobStatusRoutes);
+app.use('/api', jobInfoRoutes);
 
 app.use((err, req, res, next) => {
     const status = err.status || 500;
