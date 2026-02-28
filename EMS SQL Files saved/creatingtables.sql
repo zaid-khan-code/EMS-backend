@@ -1,114 +1,86 @@
+CREATE TABLE employee_info (
+    id SERIAL PRIMARY KEY,
+    employee_id VARCHAR(10) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    father_name VARCHAR(100) NOT NULL,
+    cnic VARCHAR(20) NOT NULL UNIQUE,
+    date_of_birth DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
 
+CREATE TABLE extra_employee_info (
+    id SERIAL PRIMARY KEY,
+    employee_id VARCHAR(10) UNIQUE NOT NULL,
+    contact_1 VARCHAR(15) NOT NULL,
+    contact_2 VARCHAR(15),
+    emergence_contact_1 VARCHAR(15),
+    emergence_contact_2 VARCHAR(15),
+    bank_name VARCHAR(100),
+    bank_acc_num VARCHAR(15),
+    perment_address VARCHAR(255),
+    postal_address VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP,
+    CONSTRAINT fk_employee_info_id FOREIGN KEY (employee_id) REFERENCES employee_info(employee_id)
+);
 
+CREATE TABLE departments (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
 
+CREATE TABLE designations (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(50) UNIQUE NOT NULL
+);
 
+CREATE TABLE employment_types (
+    id SERIAL PRIMARY KEY,
+    type_name VARCHAR(50) UNIQUE NOT NULL
+);
 
+CREATE TABLE job_statuses (
+    id SERIAL PRIMARY KEY,
+    status_name VARCHAR(50) UNIQUE NOT NULL
+);
 
-CREATE TABLE employee_info(
-	id SERIAL PRIMARY KEY,
-	employee_id VARCHAR(10) UNIQUE NOT NULL ,
-	name VARCHAR(100) NOT NULL ,
-	father_name VARCHAR(100) NOT NULL ,  
-	cnic VARCHAR(20) NOT NULL UNIQUE,
-	date_of_birth DATE NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	updated_at TIMESTAMP
-)
- 
+CREATE TABLE work_modes (
+    id SERIAL PRIMARY KEY,
+    mode_name VARCHAR(50) UNIQUE NOT NULL
+);
 
+CREATE TABLE work_locations (
+    id SERIAL PRIMARY KEY,
+    location_name VARCHAR(100) UNIQUE NOT NULL
+);
 
-CREATE TABLE extra_employee_info(
-	id SERIAL PRIMARY KEY,
-	employee_id VARCHAR(10) UNIQUE NOT NULL ,
-	contact_1 VARCHAR(15) NOT NULL,
-	contact_2 VARCHAR(15),
-	emergence_contact_1 VARCHAR(15),
-	emergence_contact_2 VARCHAR(15),
-	bank_name VARCHAR(100),
-	bank_acc_num VARCHAR(15),
-	perment_address VARCHAR(255),
-	postal_address VARCHAR(255),
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	updated_at TIMESTAMP,
-	CONSTRAINT fk_employee_info_id FOREIGN KEY (employee_id) REFERENCES employee_info(employee_id)
-)
+CREATE TABLE reporting_managers (
+    id SERIAL PRIMARY KEY,
+    manager_name VARCHAR(100) UNIQUE NOT NULL
+);
 
-
-
-
-	 
-	CREATE TABLE job_info(
-		id SERIAL PRIMARY KEY,
-		employee_id VARCHAR(10) UNIQUE NOT NULL ,
-		department_id INT NOT NULL,
-		designation_id INT NOT NULL,
-		employment_type_id INT NOT NULL,
-		job_status_id INT NOT NULL,
-		ShiftTiming 
-		date_of_joining DATE NOT NULL,
-	  	date_of_exit DATE,
-		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		updated_at TIMESTAMP,
-		CONSTRAINT fk_job_info_id FOREIGN KEY (employee_id) REFERENCES employee_info(employee_id),
-		CONSTRAINT fk_job_department_id FOREIGN KEY (department_id) REFERENCES departments(id),
-		CONSTRAINT fk_job_designation_id FOREIGN KEY (designation_id) REFERENCES designations(id),
-		CONSTRAINT fk_job_employment_type_id FOREIGN KEY (employment_type_id) REFERENCES employment_types(id),
-		CONSTRAINT fk_job_status_id FOREIGN KEY (job_status_id) REFERENCES job_statuses(id)	
-	)
-	
-	CREATE TABLE departments (
-	  id SERIAL PRIMARY KEY,
-	  name VARCHAR(50) UNIQUE NOT NULL
-	);
-	
-	CREATE TABLE designations (
-	  id SERIAL PRIMARY KEY,
-	  title VARCHAR(50) UNIQUE NOT NULL
-	);
-	
-	CREATE TABLE employment_types (
-	  id SERIAL PRIMARY KEY,
-	  type_name VARCHAR(50) UNIQUE NOT NULL
-	);
-	
-	CREATE TABLE job_statuses (
-	  id SERIAL PRIMARY KEY,
-	  status_name VARCHAR(50) UNIQUE NOT NULL
-	);
-
--- DROP TABLE job_info;
--- DROP TABLE employee_info;
--- DROP TABLE extra_employee_info;
--- DROP TABLE job_statuses;
--- DROP TABLE departments;
--- DROP TABLE designations;
--- DROP TABLE employment_types;
-
- 
-
--- SELECT employee_id FROM employee_info ORDER BY employee_id ASC
-
-
-
-
--- -- DELETE FROM extra_employee_info ;
-
--- SELECT * FROM employee_info e JOIN extra_employee_info ex ON e.employee_id = ex.employee_id;
-
-
--- INSERT INTO employee_info (employee_id, name, father_name, cnic, date_of_birth, updated_at)
--- VALUES
--- ('EMP112', 'Zaid Ali', 'Imran hashmi', '12312-7654321-51', '2001-12-01', CURRENT_TIMESTAMP) RETURNING *;
-
-
- 
--- -- SELECT e.employee_id, e.name FROM employee_info e LEFT JOIN extra_employee_info ex  ON e.employee_id = ex.employee_id WHERE ex.employee_id IS NULL; 
-
-
--- -- SELECT * FROM employee_info e LEFT JOIN extra_employee_info ex ON e.employee_id = ex.employee_id;
-
-
--- SELECT * FROM employee_info e LEFT JOIN extra_employee_info ex USING (employee_id) ORDER BY e.employee_id ASC ;
-
-
-
+CREATE TABLE job_info (
+    id SERIAL PRIMARY KEY,
+    employee_id VARCHAR(10) UNIQUE NOT NULL,
+    department_id INT NOT NULL,
+    designation_id INT NOT NULL,
+    employment_type_id INT NOT NULL,
+    job_status_id INT NOT NULL,
+    work_mode_id INT NOT NULL,
+    work_location_id INT NOT NULL,
+    reporting_manager_id INT NOT NULL,
+    shift_timing VARCHAR(50),
+    date_of_joining DATE NOT NULL,
+    date_of_exit DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP,
+    CONSTRAINT fk_job_info_id FOREIGN KEY (employee_id) REFERENCES employee_info(employee_id),
+    CONSTRAINT fk_job_department_id FOREIGN KEY (department_id) REFERENCES departments(id),
+    CONSTRAINT fk_job_designation_id FOREIGN KEY (designation_id) REFERENCES designations(id),
+    CONSTRAINT fk_job_employment_type_id FOREIGN KEY (employment_type_id) REFERENCES employment_types(id),
+    CONSTRAINT fk_job_status_id FOREIGN KEY (job_status_id) REFERENCES job_statuses(id),
+    CONSTRAINT fk_job_work_mode_id FOREIGN KEY (work_mode_id) REFERENCES work_modes(id),
+    CONSTRAINT fk_job_work_location_id FOREIGN KEY (work_location_id) REFERENCES work_locations(id),
+    CONSTRAINT fk_job_reporting_manager_id FOREIGN KEY (reporting_manager_id) REFERENCES reporting_managers(id)
+);

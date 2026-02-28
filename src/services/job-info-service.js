@@ -18,6 +18,25 @@ const validateDates = (data) => {
     }
 };
 
+const validateRequiredIds = (data) => {
+    const requiredIds = [
+        'employee_id',
+        'department_id',
+        'designation_id',
+        'employment_type_id',
+        'job_status_id',
+        'work_mode_id',
+        'work_location_id',
+        'reporting_manager_id',
+    ];
+
+    for (const key of requiredIds) {
+        if (!data[key]) {
+            throw createValidationError(`${key} is required`);
+        }
+    }
+};
+
 const normalizePayload = (data) => ({
     ...data,
     employee_id: data.employee_id?.trim(),
@@ -28,6 +47,7 @@ const normalizePayload = (data) => ({
 const jobInfoService = {
     create: (data) => {
         const payload = normalizePayload(data);
+        validateRequiredIds(payload);
         validateDates(payload);
         return jobInfoTable.create(payload);
     },
@@ -36,11 +56,11 @@ const jobInfoService = {
 
     update: (data) => {
         const payload = normalizePayload(data);
+        validateRequiredIds(payload);
         validateDates(payload);
         return jobInfoTable.update(payload);
     },
-
-     
+    delete: (id) => jobInfoTable.delete(id),
 };
 
 export default jobInfoService;

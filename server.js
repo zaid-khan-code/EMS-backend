@@ -8,6 +8,9 @@ import designationRoutes from './src/routes/designation-routes.js';
 import employmentTypeRoutes from './src/routes/employment-type-routes.js';
 import jobStatusRoutes from './src/routes/job-status-routes.js';
 import jobInfoRoutes from './src/routes/job-info-routes.js';
+import workModeRoutes from './src/routes/work-mode-routes.js';
+import workLocationRoutes from './src/routes/work-location-routes.js';
+import reportingManagerRoutes from './src/routes/reporting-manager-routes.js';
 
 dotenv.config();
 
@@ -23,6 +26,9 @@ app.use('/api', designationRoutes);
 app.use('/api', employmentTypeRoutes);
 app.use('/api', jobStatusRoutes);
 app.use('/api', jobInfoRoutes);
+app.use('/api', workModeRoutes);
+app.use('/api', workLocationRoutes);
+app.use('/api', reportingManagerRoutes);
 
 app.use((err, req, res, next) => {
     const status = err.status || 500;
