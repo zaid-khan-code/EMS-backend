@@ -2,14 +2,14 @@ import pool from '../config/db.js';
 
 
 /*
-    id SERIAL PRIMARY KEY,
-    employee_id VARCHAR(10) UNIQUE NOT NULL ,
-    department_id INT NOT NULL,
-    designation_id INT NOT NULL,
-    employment_type_id INT NOT NULL,
-    job_status_id INT NOT NULL,
-    date_of_joining DATE NOT NULL,
-    date_of_exit DATE,
+    id  
+    employee_id 
+    department_id 
+    designation_id  
+    employment_type_id  
+    job_status_id  
+    date_of_joining  
+    date_of_exit  
          */
 const extraEmployeeInfoTable = {
     create: async (data) => {
