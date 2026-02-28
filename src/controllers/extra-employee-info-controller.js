@@ -20,11 +20,10 @@ export const getEmployees = async (req, res, next) => {
 
 export const updateEmployee = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const employee = await employeeService.update({ id, ...req.body });
+        const employee = await employeeService.update(req.body);
         return res.status(200).json(employee);
     } catch (err) {
         return next(err);
     }
 };
- 
+

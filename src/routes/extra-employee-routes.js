@@ -9,6 +9,6 @@ const router = Router();
 
 router.post('/extra-employees', createEmployee);
 router.get('/extra-employees', getEmployees);
-router.put('/extra-employees/:id', updateEmployee);
+router.put('/extra-employees', updateEmployee);
  
 export default router;

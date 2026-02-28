@@ -37,7 +37,7 @@ const extraEmployeeInfoTable = {
     },
 
     read: async () => {
-        const res = await pool.query('SELECT * FROM employee_info e JOIN extra_employee_info ex ON e.employee_id = ex.employee_id; ');
+        const res = await pool.query('SELECT * FROM employee_info e LEFT JOIN extra_employee_info ex USING (employee_id) ORDER BY e.employee_id ASC;');
         return res.rows;
     },
 
