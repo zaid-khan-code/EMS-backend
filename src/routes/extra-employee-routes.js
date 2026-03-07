@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyToken } from '../middleware/authMiddleware.js';
 import {
     createEmployee,
     getEmployees,
@@ -7,8 +8,8 @@ import {
 
 const router = Router();
 
-router.post('/extra-employees', createEmployee);
-router.get('/extra-employees', getEmployees);
-router.put('/extra-employees', updateEmployee);
+router.post('/extra-employees', verifyToken, createEmployee);
+router.get('/extra-employees', verifyToken, getEmployees);
+router.put('/extra-employees', verifyToken, updateEmployee);
  
 export default router;

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyToken } from '../middleware/authMiddleware.js';
 import {
     createWorkLocation,
     getWorkLocations,
@@ -8,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post('/work-locations', createWorkLocation);
-router.get('/work-locations', getWorkLocations);
-router.get('/work-locations/:id', getWorkLocations);
-router.put('/work-locations/:id', updateWorkLocation);
-router.delete('/work-locations/:id', deleteWorkLocation);
+router.post('/work-locations', verifyToken, createWorkLocation);
+router.get('/work-locations', verifyToken, getWorkLocations);
+router.get('/work-locations/:id', verifyToken, getWorkLocations);
+router.put('/work-locations/:id', verifyToken, updateWorkLocation);
+router.delete('/work-locations/:id', verifyToken, deleteWorkLocation);
 
 export default router;

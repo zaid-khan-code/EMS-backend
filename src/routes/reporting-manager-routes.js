@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyToken } from '../middleware/authMiddleware.js';
 import {
     createReportingManager,
     getReportingManagers,
@@ -8,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post('/reporting-managers', createReportingManager);
-router.get('/reporting-managers', getReportingManagers);
-router.get('/reporting-managers/:id', getReportingManagers);
-router.put('/reporting-managers/:id', updateReportingManager);
-router.delete('/reporting-managers/:id', deleteReportingManager);
+router.post('/reporting-managers', verifyToken, createReportingManager);
+router.get('/reporting-managers', verifyToken, getReportingManagers);
+router.get('/reporting-managers/:id', verifyToken, getReportingManagers);
+router.put('/reporting-managers/:id', verifyToken, updateReportingManager);
+router.delete('/reporting-managers/:id', verifyToken, deleteReportingManager);
 
 export default router;

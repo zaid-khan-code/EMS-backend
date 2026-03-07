@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyToken } from '../middleware/authMiddleware.js';
 import {
     createEmploymentType,
     getEmploymentTypes,
@@ -8,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post('/employment-types', createEmploymentType);
-router.get('/employment-types', getEmploymentTypes);
-router.get('/employment-types/:id', getEmploymentTypes);
-router.put('/employment-types/:id', updateEmploymentType);
-router.delete('/employment-types/:id', deleteEmploymentType);
+router.post('/employment-types', verifyToken, createEmploymentType);
+router.get('/employment-types', verifyToken, getEmploymentTypes);
+router.get('/employment-types/:id', verifyToken, getEmploymentTypes);
+router.put('/employment-types/:id', verifyToken, updateEmploymentType);
+router.delete('/employment-types/:id', verifyToken, deleteEmploymentType);
 
 export default router;

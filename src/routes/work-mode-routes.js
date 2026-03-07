@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyToken } from '../middleware/authMiddleware.js';
 import {
     createWorkMode,
     getWorkModes,
@@ -8,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post('/work-modes', createWorkMode);
-router.get('/work-modes', getWorkModes);
-router.get('/work-modes/:id', getWorkModes);
-router.put('/work-modes/:id', updateWorkMode);
-router.delete('/work-modes/:id', deleteWorkMode);
+router.post('/work-modes', verifyToken, createWorkMode);
+router.get('/work-modes', verifyToken, getWorkModes);
+router.get('/work-modes/:id', verifyToken, getWorkModes);
+router.put('/work-modes/:id', verifyToken, updateWorkMode);
+router.delete('/work-modes/:id', verifyToken, deleteWorkMode);
 
 export default router;

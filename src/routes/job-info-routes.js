@@ -1,17 +1,18 @@
 import { Router } from 'express';
+import { verifyToken } from '../middleware/authMiddleware.js';
 import {
     createJobInfo,
     getJobInfo,
-    updateJobInfo, 
+    updateJobInfo,
     deleteJobInfo,
 } from '../controllers/job-info-controller.js';
 
 const router = Router();
 
-router.post('/job-info', createJobInfo);
-router.get('/job-info', getJobInfo);
-router.get('/job-info/:id', getJobInfo);
-router.put('/job-info/:id', updateJobInfo); 
-router.delete('/job-info/:id', deleteJobInfo);
+router.post('/job-info', verifyToken, createJobInfo);
+router.get('/job-info', verifyToken, getJobInfo);
+router.get('/job-info/:id', verifyToken, getJobInfo);
+router.put('/job-info/:id', verifyToken, updateJobInfo);
+router.delete('/job-info/:id', verifyToken, deleteJobInfo);
 
 export default router;

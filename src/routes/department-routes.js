@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyToken } from '../middleware/authMiddleware.js';
 import {
     createDepartment,
     getDepartments,
@@ -8,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post('/departments', createDepartment);
-router.get('/departments', getDepartments);
-router.get('/departments/:id', getDepartments);
-router.put('/departments/:id', updateDepartment);
-router.delete('/departments/:id', deleteDepartment);
+router.post('/departments', verifyToken, createDepartment);
+router.get('/departments', verifyToken, getDepartments);
+router.get('/departments/:id', verifyToken, getDepartments);
+router.put('/departments/:id', verifyToken, updateDepartment);
+router.delete('/departments/:id', verifyToken, deleteDepartment);
 
 export default router;
