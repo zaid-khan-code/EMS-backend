@@ -1,3 +1,5 @@
+// this is my employee-routes
+
 import { Router } from 'express';
 import {
     createEmployee,
@@ -15,5 +17,6 @@ router.get('/employees/ids', getEmployeesId);
 router.get('/employees/:id', getEmployees);
 router.put('/employees/:id', updateEmployee);
 router.delete('/employees/:id', deleteEmployee);
+
 
 export default router;

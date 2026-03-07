@@ -11,7 +11,7 @@ import jobInfoRoutes from './src/routes/job-info-routes.js';
 import workModeRoutes from './src/routes/work-mode-routes.js';
 import workLocationRoutes from './src/routes/work-location-routes.js';
 import reportingManagerRoutes from './src/routes/reporting-manager-routes.js';
-
+import authRoutes from './src/routes/authRoutes';
 dotenv.config();
 
 const app = express();
@@ -29,7 +29,12 @@ app.use('/api', jobInfoRoutes);
 app.use('/api', workModeRoutes);
 app.use('/api', workLocationRoutes);
 app.use('/api', reportingManagerRoutes);
+app.use('/api/auth', authRoutes);
 
+
+app.get('/', (req, res) => {
+    res.send('server is running');
+});
 app.use((err, req, res, next) => {
     const status = err.status || 500;
     const message = err.message || 'Internal Server Error';
