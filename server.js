@@ -12,6 +12,7 @@ import workModeRoutes from './src/routes/work-mode-routes.js';
 import workLocationRoutes from './src/routes/work-location-routes.js';
 import reportingManagerRoutes from './src/routes/reporting-manager-routes.js';
 import authRoutes from './src/routes/authRoutes';
+import userRoutes from './src/routes/userRoutes.js ';
 dotenv.config();
 
 const app = express();
@@ -31,6 +32,7 @@ app.use('/api', workLocationRoutes);
 app.use('/api', reportingManagerRoutes);
 app.use('/api/auth', authRoutes);
 
+app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
     res.send('server is running');
