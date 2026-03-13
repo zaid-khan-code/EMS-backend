@@ -1,4 +1,4 @@
-// src/models/userModel.js
+// src/models/user-model.js
 import pool from '../config/db.js';
 
 const userTable = {

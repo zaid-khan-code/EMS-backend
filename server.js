@@ -11,8 +11,8 @@ import jobInfoRoutes from './src/routes/job-info-routes.js';
 import workModeRoutes from './src/routes/work-mode-routes.js';
 import workLocationRoutes from './src/routes/work-location-routes.js';
 import reportingManagerRoutes from './src/routes/reporting-manager-routes.js';
-import authRoutes from './src/routes/authRoutes';
-import userRoutes from './src/routes/userRoutes.js ';
+import authRoutes from './src/routes/auth-routes.js';
+import userRoutes from './src/routes/user-routes.js';
 dotenv.config();
 
 const app = express();

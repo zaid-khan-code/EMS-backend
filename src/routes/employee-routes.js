@@ -1,7 +1,7 @@
 // this is my employee-routes
 
 import { Router } from 'express';
-import { verifyToken } from '../middleware/authMiddleware.js';
+import { verifyToken } from '../middleware/auth-middleware.js';
 import {
     createEmployee,
     getEmployees,

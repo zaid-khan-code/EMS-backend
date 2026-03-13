@@ -1,5 +1,5 @@
-// src/controllers/userController.js
-import userService from '../services/userService.js';
+// src/controllers/user-controller.js
+import userService from '../services/user-service.js';
 
 const userController = {
     getAll: async (req, res) => {

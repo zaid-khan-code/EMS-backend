@@ -1,6 +1,6 @@
-// src/services/userService.js
+// src/services/user-service.js
 import bcrypt from 'bcrypt';
-import userTable from '../models/userModel.js';
+import userTable from '../models/user-model.js';
 
 const userService = {
     getAll: async () => {

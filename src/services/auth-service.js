@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
-import { findUserByUsername } from '../models/authModel';
+import { findUserByUsername } from '../models/auth-model.js';
 
 export const loginUser = async (username, password) => {
 
