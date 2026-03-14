@@ -35,7 +35,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
-    res.send('server is running');
+    res.json({ message: 'server is running' }).send();
 });
 app.use((err, req, res, next) => {
     const status = err.status || 500;

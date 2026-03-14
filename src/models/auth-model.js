@@ -1,4 +1,4 @@
-import { pool } from "pg";
+import  pool from "../config/db.js";
 
 export const findUserByUsername = async (username) => {
     const result = await pool.query(
