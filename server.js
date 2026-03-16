@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+dotenv.config(); // ← first thing before everything
+
 import employeeRoutes from './src/routes/employee-info-routes.js';
 import extraEmployeeRoutes from './src/routes/extra-employee-info-routes.js';
 import departmentRoutes from './src/routes/department-routes.js';
@@ -13,11 +15,14 @@ import workLocationRoutes from './src/routes/work-location-routes.js';
 import reportingManagerRoutes from './src/routes/reporting-manager-routes.js';
 import authRoutes from './src/routes/auth-routes.js';
 import userRoutes from './src/routes/user-routes.js';
-dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true
+}));
 app.use(express.json());
 
 app.use('/api', employeeRoutes);
@@ -31,12 +36,12 @@ app.use('/api', workModeRoutes);
 app.use('/api', workLocationRoutes);
 app.use('/api', reportingManagerRoutes);
 app.use('/api/auth', authRoutes);
-
 app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
-    res.json({ message: 'server is running' }).send();
+    res.json({ message: 'server is running' });
 });
+
 app.use((err, req, res, next) => {
     const status = err.status || 500;
     const message = err.message || 'Internal Server Error';
