@@ -15,6 +15,7 @@ import workLocationRoutes from './src/routes/work-location-routes.js';
 import reportingManagerRoutes from './src/routes/reporting-manager-routes.js';
 import authRoutes from './src/routes/auth-routes.js';
 import userRoutes from './src/routes/user-routes.js';
+import shiftRoutes from './src/routes/shift-routes.js';
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api', workLocationRoutes);
 app.use('/api', reportingManagerRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/shifts', shiftRoutes);
 
 app.get('/', (req, res) => {
     res.json({ message: 'server is running' });
