@@ -1,10 +1,65 @@
 import designationTable from '../models/designation-model.js';
+import pool from '../config/db.js';
 
 const designationService = {
-    create: (data) => designationTable.create(data),
+    create: async (data) => {
+        // Check for duplicate title
+        const existing = await designationTable.findByTitle(data.title);
+        if (existing) {
+            throw { status: 400, message: 'Designation title already exists' };
+        }
+
+        // Validate department_id if provided
+        if (data.department_id) {
+            const deptCheck = await pool.query(
+                'SELECT id FROM departments WHERE id = $1',
+                [data.department_id]
+            );
+            if (deptCheck.rows.length === 0) {
+                throw { status: 404, message: 'Department not found' };
+            }
+        }
+
+        return designationTable.create(data);
+    },
+
     read: (id) => designationTable.read(id),
-    update: (data) => designationTable.update(data),
-    delete: (id) => designationTable.delete(id),
+
+    readByDepartment: (departmentId) => designationTable.readByDepartment(departmentId),
+
+    update: async (data) => {
+        // Check for duplicate title excluding current
+        const existing = await designationTable.findByTitle(data.title, data.id);
+        if (existing) {
+            throw { status: 400, message: 'Designation title already exists' };
+        }
+
+        // Validate department_id if provided
+        if (data.department_id) {
+            const deptCheck = await pool.query(
+                'SELECT id FROM departments WHERE id = $1',
+                [data.department_id]
+            );
+            if (deptCheck.rows.length === 0) {
+                throw { status: 404, message: 'Department not found' };
+            }
+        }
+
+        return designationTable.update(data);
+    },
+
+    delete: async (id) => {
+        // Check if designation is used in job_info
+        const usage = await pool.query(
+            'SELECT COUNT(*) FROM job_info WHERE designation_id = $1',
+            [id]
+        );
+        if (parseInt(usage.rows[0].count) > 0) {
+            throw { status: 400, message: 'Cannot delete designation assigned to employees' };
+        }
+
+        return designationTable.delete(id);
+    },
 };
 
 export default designationService;

@@ -1,55 +1,80 @@
 import reportingManagerService from '../services/reporting-manager-service.js';
 
-export const createReportingManager = async (req, res, next) => {
-    try {
-        const reportingManager = await reportingManagerService.create(req.body);
-        return res.status(201).json(reportingManager);
-    } catch (err) {
-        return next(err);
-    }
-};
-
-export const getReportingManagers = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const data = await reportingManagerService.read(id);
-
-        if (id && !data) {
-            return res.status(404).json({ error: 'Reporting manager not found' });
+const reportingManagerController = {
+    getAll: async (req, res) => {
+        try {
+            const managers = await reportingManagerService.read();
+            res.status(200).json(managers);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
         }
+    },
 
-        return res.status(200).json(data);
-    } catch (err) {
-        return next(err);
-    }
-};
-
-export const updateReportingManager = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const reportingManager = await reportingManagerService.update({ id, ...req.body });
-
-        if (!reportingManager) {
-            return res.status(404).json({ error: 'Reporting manager not found' });
+    getById: async (req, res) => {
+        try {
+            const manager = await reportingManagerService.read(req.params.id);
+            if (!manager) {
+                return res.status(404).json({ message: 'Reporting manager not found' });
+            }
+            res.status(200).json(manager);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
         }
+    },
 
-        return res.status(200).json(reportingManager);
-    } catch (err) {
-        return next(err);
-    }
-};
-
-export const deleteReportingManager = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const reportingManager = await reportingManagerService.delete(id);
-
-        if (!reportingManager) {
-            return res.status(404).json({ error: 'Reporting manager not found' });
+    getByDepartment: async (req, res) => {
+        try {
+            const managers = await reportingManagerService.readByDepartment(req.params.departmentId);
+            res.status(200).json(managers);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
         }
+    },
 
-        return res.status(200).json(reportingManager);
-    } catch (err) {
-        return next(err);
-    }
+    create: async (req, res) => {
+        try {
+            const manager = await reportingManagerService.create(req.body);
+            res.status(201).json({
+                message: 'Reporting manager created successfully',
+                manager
+            });
+        } catch (err) {
+            const status = err.status || 500;
+            res.status(status).json({ message: err.message });
+        }
+    },
+
+    update: async (req, res) => {
+        try {
+            const manager = await reportingManagerService.update({ id: req.params.id, ...req.body });
+            if (!manager) {
+                return res.status(404).json({ message: 'Reporting manager not found' });
+            }
+            res.status(200).json({
+                message: 'Reporting manager updated successfully',
+                manager
+            });
+        } catch (err) {
+            const status = err.status || 500;
+            res.status(status).json({ message: err.message });
+        }
+    },
+
+    delete: async (req, res) => {
+        try {
+            const manager = await reportingManagerService.delete(req.params.id);
+            if (!manager) {
+                return res.status(404).json({ message: 'Reporting manager not found' });
+            }
+            res.status(200).json({
+                message: 'Reporting manager deleted successfully',
+                manager
+            });
+        } catch (err) {
+            const status = err.status || 500;
+            res.status(status).json({ message: err.message });
+        }
+    },
 };
+
+export default reportingManagerController;
