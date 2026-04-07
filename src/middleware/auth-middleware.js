@@ -1,80 +1,93 @@
-import jwt from 'jsonwebtoken' ;
+import jwt from 'jsonwebtoken';
+
+const HTTP_STATUS = {
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    INTERNAL_SERVER_ERROR: 500
+};
+
+const sendError = (res, statusCode, message) => {
+    return res.status(statusCode).json({ message });
+};
+
+const extractBearerToken = (authorizationHeader) => {
+    if (typeof authorizationHeader !== 'string') {
+        return { token: null, statusCode: HTTP_STATUS.UNAUTHORIZED };
+    }
+
+    const [scheme, token] = authorizationHeader.split(' ');
+
+    if (scheme?.toLowerCase() !== 'bearer' || !token) {
+        return { token: null, statusCode: HTTP_STATUS.BAD_REQUEST };
+    }
+
+    return { token, statusCode: null };
+};
 
 export const verifyToken = (req, res, next) => {
+    const { token, statusCode } = extractBearerToken(req.headers.authorization);
+
+    if (!token) {
+        return sendError(
+            res,
+            statusCode,
+            statusCode === HTTP_STATUS.BAD_REQUEST
+                ? 'Authorization header must use the Bearer token format.'
+                : 'Authentication token is required.'
+        );
+    }
+
+    if (!process.env.JWT_SECRET) {
+        return sendError(
+            res,
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            'Authentication service is not configured.'
+        );
+    }
+
     try {
-        console.log('=================================');
-        console.log('🔒 MIDDLEWARE TRIGGERED');
-        console.log('📍 Route hit:', req.method, req.originalUrl);
-        console.log('=================================');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
 
-        // STEP 1: check if header exists
-        const authHeader = req.headers.authorization;
-        console.log('📨 Authorization Header:', authHeader);
-
-        if (!authHeader) {
-            console.log('❌ No token found in header — BLOCKED');
-            return res.status(401).json({ 
-                message: 'No token. Please login first.' 
-            });
+        return next();
+    } catch (error) {
+        if (
+            error.name === 'TokenExpiredError' ||
+            error.name === 'JsonWebTokenError' ||
+            error.name === 'NotBeforeError'
+        ) {
+            return sendError(
+                res,
+                HTTP_STATUS.UNAUTHORIZED,
+                'Invalid or expired authentication token.'
+            );
         }
 
-        // STEP 2: extract token from "Bearer eyJhbG..."
-        const token = authHeader.split(' ')[1];
-        console.log('🎫 Extracted Token:', token);
-
-        // STEP 3: verify the token
-        console.log('🔑 Verifying token with SECRET...');
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log('✅ Token is VALID!');
-        console.log('👤 Decoded User Info:', decoded);
-        // decoded will show:
-        // {
-        //   userId: 1,
-        //   username: 'superadmin',
-        //   role: 'super_admin',
-        //   iat: 1234567 (issued at),
-        //   exp: 1234567 (expires at)
-        // }
-
-        // STEP 4: attach user to request
-        req.user = decoded;
-        console.log('📌 User attached to request:', req.user);
-        console.log('➡️  Passing to actual route now...');
-        console.log('=================================');
-
-        next(); // ← GO to the actual route
-
-    } catch (err) {
-        console.log('=================================');
-        console.log('❌ MIDDLEWARE BLOCKED REQUEST');
-        console.log('🚨 Reason:', err.message);
-        // err.message will be one of:
-        // "jwt expired"
-        // "invalid token"
-        // "invalid signature"
-        // "jwt malformed"
-        console.log('=================================');
-        return res.status(401).json({ 
-            message: 'Invalid or expired token. Please login again.' 
-        });
+        return sendError(
+            res,
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            'Unable to authenticate the request.'
+        );
     }
 };
 
 export const superAdminOnly = (req, res, next) => {
-    console.log('=================================');
-    console.log('👑 SUPER ADMIN CHECK');
-    console.log('👤 User role is:', req.user.role);
-
-    if (req.user.role !== 'super_admin') {
-        console.log('❌ NOT super_admin — BLOCKED');
-        console.log('=================================');
-        return res.status(403).json({ 
-            message: 'Access denied. Super admin only.' 
-        });
+    if (!req.user) {
+        return sendError(
+            res,
+            HTTP_STATUS.UNAUTHORIZED,
+            'Authentication is required.'
+        );
     }
 
-    console.log('✅ Is super_admin — ALLOWED');
-    console.log('=================================');
-    next();
-};
+    if (req.user.role !== 'super_admin') {
+        return sendError(
+            res,
+            HTTP_STATUS.FORBIDDEN,
+            'Access denied. Super admin only.'
+        );
+    }
 
+    return next();
+};
