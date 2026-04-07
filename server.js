@@ -12,16 +12,12 @@ import jobStatusRoutes from './src/routes/job-status-routes.js';
 import jobInfoRoutes from './src/routes/job-info-routes.js';
 import workModeRoutes from './src/routes/work-mode-routes.js';
 import workLocationRoutes from './src/routes/work-location-routes.js';
-import reportingManagerRoutes from './src/routes/reporting-manager-routes.js';
 import authRoutes from './src/routes/auth-routes.js';
 import userRoutes from './src/routes/user-routes.js';
 import shiftRoutes from './src/routes/shift-routes.js';
 import leaveTypeRoutes from './src/routes/leave-type-routes.js';
 import leavePolicyRoutes from './src/routes/leave-policy-routes.js';
 import leaveBalanceRoutes from './src/routes/leave-balance-routes.js';
-import payrollComponentRoutes from './src/routes/payroll-component-routes.js';
-import taxConfigRoutes from './src/routes/tax-config-routes.js';
-import customFieldDefinitionRoutes from './src/routes/custom-field-definition-routes.js';
 
 const app = express();
 
@@ -41,16 +37,12 @@ app.use('/api', jobStatusRoutes);
 app.use('/api', jobInfoRoutes);
 app.use('/api', workModeRoutes);
 app.use('/api', workLocationRoutes);
-app.use('/api/reporting-managers', reportingManagerRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/shifts', shiftRoutes);
 app.use('/api/leave-types', leaveTypeRoutes);
 app.use('/api/leave-policies', leavePolicyRoutes);
 app.use('/api/leave-balances', leaveBalanceRoutes);
-app.use('/api/payroll-components', payrollComponentRoutes);
-app.use('/api/tax-config', taxConfigRoutes);
-app.use('/api/custom-fields', customFieldDefinitionRoutes);
 
 app.get('/', (req, res) => {
     res.json({ message: 'server is running' });
