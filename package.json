@@ -5,7 +5,12 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:create": "node-pg-migrate create",
+    "db:migrate": "node-pg-migrate up",
+    "db:rollback": "node-pg-migrate down",
+    "db:status": "node-pg-migrate status",
+    "db:redo": "node-pg-migrate redo",
+    "db:check": "node-pg-migrate up --dry-run"
   },
   "keywords": [],
   "author": "",
