@@ -220,12 +220,14 @@ async function seed() {
         );
 
         // --- Users ---
+        const hashedPassword = "$2b$10$adY9EcoD4pSvdokfM5JJEu1.VeZUpmMT7pUDoKWQOZW4cjcQ2TuOa";
+
         await client.query(
             "INSERT INTO users (employee_id, email, password, role_id) VALUES ($1, $2, $3, $4)",
             [
                 "EMP001",
                 "john.doe@company.com",
-                "$2b$10$X7UrJBJz8qFk9Z5XqZxYOejK5pJqZ7YqZxYOejK5pJqZ7YqZxYOejK",
+                hashedPassword,
                 adminRoleId,
             ]
         );
@@ -235,7 +237,7 @@ async function seed() {
             [
                 "EMP002",
                 "jane.smith@company.com",
-                "$2b$10$X7UrJBJz8qFk9Z5XqZxYOejK5pJqZ7YqZ7YqZxYOejK5pJqZ7YqZxYOejK",
+                hashedPassword,
                 empRoleId,
             ]
         );
