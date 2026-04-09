@@ -101,7 +101,6 @@ By default the server listens on `http://localhost:3000`. CORS currently allows 
 | `npm run db:migrate`  | Run all pending migrations                              |
 | `npm run db:rollback` | Undo the last migration                                 |
 | `npm run db:check`    | Preview what migrations would run (dry-run, no changes) |
-| `npm run db:order`    | Verify migration files are in correct order             |
 | `npm run db:fake`     | Mark migrations as run without executing them           |
 | `npm run db:seed`     | Insert dummy seed data into the database                |
 

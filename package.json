@@ -9,7 +9,6 @@
     "db:migrate": "node-pg-migrate up",
     "db:rollback": "node-pg-migrate down",
     "db:check": "node-pg-migrate up --dry-run",
-    "db:order": "node-pg-migrate up --check-order",
     "db:fake": "node-pg-migrate up --fake",
     "db:seed": "node seeds/dev_seed.js"
   },
